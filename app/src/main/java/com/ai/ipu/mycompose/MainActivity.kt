@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -28,18 +29,22 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyScreenContent(names: List<String> = listOf("Android", "Zhang")) {
+fun MyScreenContent(names: List<String> = List(1000) {"Hello Compose #$it"}) {
     val count = remember { mutableStateOf(0)}
     Column(modifier = Modifier.fillMaxHeight()) {
-        Column(modifier = Modifier.weight(1f)) {
-            for (name in names) {
-                Greeting(name = name)
-                Divider(color = Color.Blue)
-            }
-            Divider(color = Color.Transparent, thickness = 24.dp)
-        }
+        NameList(names, Modifier.weight(1f))
         Counter(count.value) {
             count.value = it
+        }
+    }
+}
+
+@Composable
+fun NameList(names: List<String>, modifier: Modifier) {
+    LazyColumn(modifier = modifier) {
+        items(names.size) { i ->
+            Greeting(name = names[i])
+            Divider(color = Color.Black)
         }
     }
 }
