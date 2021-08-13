@@ -6,10 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Divider
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,7 +61,8 @@ fun Greeting(name: String) {
 @Composable
 fun Counter(count: Int, updateCount: (Int) -> Unit) {
 
-    Button(onClick = {updateCount(count + 1)}) {
+    Button(onClick = {updateCount(count + 1)},
+        colors = ButtonDefaults.buttonColors(if (count > 5) Color.Green else Color.Cyan)) {
         Text(text = "Clicked $count times")
     }
 }
