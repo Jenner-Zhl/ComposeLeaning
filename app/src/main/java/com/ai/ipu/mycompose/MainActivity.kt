@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
@@ -19,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.ai.ipu.mycompose.ui.theme.MyComposeTheme
 
 class MainActivity : ComponentActivity() {
-    var countTemp = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -33,12 +33,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyScreenContent(names: List<String> = listOf("Android", "Zhang")) {
     val count = remember { mutableStateOf(0)}
-    Column {
-        for (name in names) {
-            Greeting(name = name)
-            Divider(color = Color.Blue)
+    Column(modifier = Modifier.fillMaxHeight()) {
+        Column(modifier = Modifier.weight(1f)) {
+            for (name in names) {
+                Greeting(name = name)
+                Divider(color = Color.Blue)
+            }
+            Divider(color = Color.Transparent, thickness = 24.dp)
         }
-        Divider(color = Color.Transparent, thickness = 24.dp)
         Counter(count.value) {
             count.value = it
         }
