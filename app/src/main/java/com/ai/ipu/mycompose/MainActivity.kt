@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -64,13 +65,13 @@ fun MyApp(content: @Composable () -> Unit) {
 
 @Composable
 fun Greeting(name: String) {
-    val isSelected = remember { mutableStateOf(false)}
-    val backgroundColor by animateColorAsState(if (isSelected.value) Color.Red else Color.Transparent)
+    var isSelected by remember { mutableStateOf(false)}
+    val backgroundColor by animateColorAsState(if (isSelected) Color.Red else Color.Transparent)
     Text(text = "Hello $name!",
         modifier = Modifier
             .padding(24.dp)
             .background(backgroundColor)
-            .clickable { isSelected.value = !isSelected.value })
+            .clickable { isSelected = !isSelected })
 }
 
 @Composable
