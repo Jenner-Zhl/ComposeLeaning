@@ -3,15 +3,27 @@
     package="com.ai.ipu.mycompose">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCompose">
         <activity
+            android:name=".activity.ActivityForLayouts"
+            android:exported="true"
+            android:label="@string/title_activity_for_layouts"
+            android:theme="@style/Theme.MyCompose.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:enabled="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyCompose.NoActionBar">
             <intent-filter>
