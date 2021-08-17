@@ -38,8 +38,8 @@ fun Greeting2(name: String) {
 @Composable
 fun PhotographerCard(modifier: Modifier = Modifier) {
     Row (modifier
-        .padding(16.dp)
         .clickable { /**/ }
+        .padding(16.dp)
     ) {
         Surface(
             modifier = Modifier.size(50.dp),
