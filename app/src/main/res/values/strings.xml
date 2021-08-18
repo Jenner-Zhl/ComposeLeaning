@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MyCompose</string>
     <string name="title_activity_for_layouts">ActivityForLayouts</string>
+    <string name="title_activity_for_list">ActivityForList</string>
 </resources>

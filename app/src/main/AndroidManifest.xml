@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ai.ipu.mycompose">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -10,8 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCompose">
         <activity
+            android:name=".activity.ActivityForList"
+            android:exported="true"
+            android:label="@string/title_activity_for_list"
+            android:theme="@style/Theme.MyCompose.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.ActivityForLayouts"
             android:exported="true"
+            android:enabled="false"
             android:label="@string/title_activity_for_layouts"
             android:theme="@style/Theme.MyCompose.NoActionBar">
             <intent-filter>
@@ -22,8 +36,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"
             android:enabled="false"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyCompose.NoActionBar">
             <intent-filter>
