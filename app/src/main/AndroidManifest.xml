@@ -12,8 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCompose">
         <activity
+            android:name=".activity.ActivityForCustomLayout"
+            android:exported="true"
+            android:label="@string/title_activity_for_custom_layout"
+            android:theme="@style/Theme.MyCompose.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.ActivityForList"
             android:exported="true"
+            android:enabled="false"
             android:label="@string/title_activity_for_list"
             android:theme="@style/Theme.MyCompose.NoActionBar">
             <intent-filter>
@@ -24,8 +36,8 @@
         </activity>
         <activity
             android:name=".activity.ActivityForLayouts"
-            android:exported="true"
             android:enabled="false"
+            android:exported="true"
             android:label="@string/title_activity_for_layouts"
             android:theme="@style/Theme.MyCompose.NoActionBar">
             <intent-filter>
