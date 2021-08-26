@@ -46,7 +46,11 @@ class TodoActivity : AppCompatActivity() {
 private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
     TodoScreen(
         items = todoViewModel.todoItems,
+        currentlyEditing = todoViewModel.currentEditItem,
         onAddItem = todoViewModel::addItem,
-        onRemoveItem = todoViewModel::removeItem
+        onRemoveItem = todoViewModel::removeItem,
+        onEditDone = todoViewModel::onEditDone,
+        onEditItemChange = todoViewModel::onEditItemChange,
+        onStartEdit = todoViewModel::onEditItemSelected
     )
 }
