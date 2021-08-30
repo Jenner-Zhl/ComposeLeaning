@@ -11,9 +11,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ai.ipu.mycompose.activity.ui.theme.MyComposeTheme
+import java.lang.Thread.sleep
+import kotlin.concurrent.thread
 import kotlin.math.max
 
 class ActivityForCustomLayout : ComponentActivity() {
@@ -151,9 +154,27 @@ val topics = listOf(
 @Composable
 fun LayoutBodyContent(modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
+    val textState = remember { mutableStateOf(0)}
     StaggeredGrid(modifier = modifier.horizontalScroll(scrollState)) {
         for (topic in topics) {
             Chip(modifier = Modifier.padding(8.dp), text = topic)
+        }
+    }
+
+    Text(textState.value.toString())
+    runBackThread {
+        textState.value++
+    }
+}
+
+private var running = false
+private fun runBackThread(runnable: Runnable) {
+    if (running) return
+    running = true
+    thread {
+        for (i in 0 .. 9) {
+            sleep(1000)
+            runnable.run()
         }
     }
 }
