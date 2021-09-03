@@ -589,7 +589,18 @@ private fun WeatherRow(
 @Composable
 private fun LoadingRow() {
     // TODO 5: Animate this value between 0f and 1f, then back to 0f repeatedly.
-    val alpha = 1f
+    val infiniteTransition = rememberInfiniteTransition()
+    val alpha by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = 1000
+                0.7f at 500
+            },
+            repeatMode = RepeatMode.Reverse
+        )
+    )
     Row(
         modifier = Modifier
             .heightIn(min = 64.dp)
@@ -653,6 +664,7 @@ private fun Modifier.swipeToDismiss(
     onDismissed: () -> Unit
 ): Modifier = composed {
     // TODO 6-1: Create an Animatable instance for the offset of the swiped element.
+    val offsetX = remember { Animatable(0f) }
     pointerInput(Unit) {
         // Used to calculate a settling position of a fling animation.
         val decay = splineBasedDecay<Float>(this)
@@ -662,12 +674,17 @@ private fun Modifier.swipeToDismiss(
                 // Wait for a touch down event.
                 val pointerId = awaitPointerEventScope { awaitFirstDown().id }
                 // TODO 6-2: Touch detected; the animation should be stopped.
+                offsetX.stop()
                 // Prepare for drag events and record velocity of a fling.
                 val velocityTracker = VelocityTracker()
                 // Wait for drag events.
                 awaitPointerEventScope {
                     horizontalDrag(pointerId) { change ->
                         // TODO 6-3: Apply the drag change to the Animatable offset.
+                        val horizontalDragOffset = offsetX.value + change.positionChange().x
+                        launch {
+                            offsetX.snapTo(horizontalDragOffset)
+                        }
                         // Record the velocity of the drag.
                         velocityTracker.addPosition(change.uptimeMillis, change.position)
                         // Consume the gesture event, not passed to external
@@ -678,18 +695,29 @@ private fun Modifier.swipeToDismiss(
                 val velocity = velocityTracker.calculateVelocity().x
                 // TODO 6-4: Calculate the eventual position where the fling should settle
                 //           based on the current offset value and velocity
+                val targetOffsetX = decay.calculateTargetValue(offsetX.value, velocity)
                 // TODO 6-5: Set the upper and lower bounds so that the animation stops when it
                 //           reaches the edge.
+                offsetX.updateBounds(
+                    lowerBound = -size.width.toFloat(),
+                    upperBound = size.width.toFloat()
+                )
                 launch {
                     // TODO 6-6: Slide back the element if the settling position does not go beyond
                     //           the size of the element. Remove the element if it does.
+                    if (targetOffsetX.absoluteValue <= size.width) {
+                        offsetX.animateTo(0f, initialVelocity = velocity)
+                    } else {
+                        offsetX.animateDecay(velocity, decay)
+                        onDismissed()
+                    }
                 }
             }
         }
     }
         .offset {
             // TODO 6-7: Use the animating offset value here.
-            IntOffset(0, 0)
+            IntOffset(offsetX.value.roundToInt(), 0)
         }
 }
 
